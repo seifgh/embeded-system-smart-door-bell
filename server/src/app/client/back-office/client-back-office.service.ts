@@ -13,7 +13,7 @@ import {
   NOT_FOUND_BODY_RESPONSE,
   UNIQUE_EMAIL_BODY_RESPONSE,
 } from 'src/shared/body-responses';
-import { QueryFailedError, Repository } from 'typeorm';
+import { Like, QueryFailedError, Repository } from 'typeorm';
 import { ClientEntity } from '../client.entity';
 import { CreateClientDto, UpdateClientDto } from './client-back-office.dto';
 import { ClientData } from './client-back-office.interface';
@@ -45,6 +45,16 @@ export class ClientBackOfficeService {
       paginatedData.items.map((admin) => this.formatClientData(admin)),
       paginatedData.meta,
     );
+  }
+
+  async searchClientsByEmail(email: string): Promise<ClientData[]> {
+    const foundClients = await this.clientRepository.find({
+      where: {
+        email: Like(`%${email}%`),
+      },
+    });
+
+    return foundClients.map(this.formatClientData);
   }
 
   async create(

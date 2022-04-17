@@ -93,4 +93,9 @@ export class ClientBackOfficeController {
   deleteOne(@Param('id', ParseIntPipe) id: number) {
     return this.clientBackOfficeService.deleteOne(id);
   }
+
+  @Get('/search/:emailSearchQuery')
+  searchByEmail(@Param('emailSearchQuery') emailSearchQuery: string) {
+    return this.clientBackOfficeService.searchClientsByEmail(emailSearchQuery);
+  }
 }

@@ -1,0 +1,11 @@
+.header-user-card {
+    @apply w-auto;
+}
+
+.details {
+    @apply flex-col flex ml-2;
+}
+
+.avatar {
+    @apply bg-primary;
+}

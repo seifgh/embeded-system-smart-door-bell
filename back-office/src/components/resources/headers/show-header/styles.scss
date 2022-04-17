@@ -1,0 +1,17 @@
+.res-show-header {
+    @apply flex justify-between items-center pb-4;
+    &>* {
+        @apply flex items-center;
+        .btn {
+            @apply mr-4;
+        }
+    }
+}
+
+.btns {
+    @apply flex items-center;
+    &>* {
+        margin-top: 0 !important;
+        @apply ml-2;
+    }
+}

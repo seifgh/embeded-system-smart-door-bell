@@ -1,0 +1,21 @@
+header {
+    @apply absolute top-0 w-full bg-white z-50;
+    @apply flex flex-wrap items-center;
+    @apply px-4 py-2 border-0 border-b border-b-gray-100 border-solid;
+    height: var(--header-height);
+    &>* {
+        @apply flex-1;
+    }
+}
+
+.section-1 {
+    @apply flex items-center;
+}
+
+.section-2 {
+    @apply flex flex-1 justify-end;
+}
+
+.logo img {
+    @apply w-44 mx-4;
+}

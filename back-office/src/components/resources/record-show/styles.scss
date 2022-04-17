@@ -1,0 +1,13 @@
+.res-record-show {
+    @apply bg-white w-full p-6;
+    @apply border-solid border border-gray-50 mb-4;
+    min-height: 300px;
+}
+
+.col {
+    @apply flex flex-col mb-4;
+}
+
+.value {
+    @apply ml-2;
+}

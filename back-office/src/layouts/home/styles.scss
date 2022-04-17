@@ -1,0 +1,12 @@
+.home-layout {
+    @apply h-screen w-full overflow-hidden;
+    @apply flex items-stretch;
+    --aside-width: 300px;
+    --header-height: 64px;
+}
+
+main {
+    height: calc(100% - var(--header-height));
+    top: var(--header-height);
+    @apply relative p-4 w-full bg-light overflow-auto;
+}

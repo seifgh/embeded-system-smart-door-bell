@@ -1,0 +1,18 @@
+.header-menu-item {
+    @apply w-full p-4;
+}
+
+.title {
+    @apply w-full flex items-center text-gray-500 mb-2;
+    .text {
+        @apply ml-2;
+    }
+}
+
+.links {
+    @apply block w-full;
+    @apply border-0 border-l border-solid border-gray-300;
+    a {
+        @apply block py-1;
+    }
+}

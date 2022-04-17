@@ -1,0 +1,11 @@
+:root {
+    --primary-cl: #1890ff;
+    --dark-cl: #1890ff;
+    --light-cl: #fdfdfd;
+}
+
+* {
+    @apply box-border;
+}
+
+@import "~antd/dist/antd.css";

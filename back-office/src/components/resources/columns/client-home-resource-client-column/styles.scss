@@ -1,0 +1,15 @@
+.res-client-col {
+    @apply flex items-center my-2;
+    .details {
+        @apply flex flex-col ml-2 text-black;
+    }
+    b {
+        @apply font-semibold;
+    }
+    &:hover .details {
+        @apply underline text-primary;
+    }
+    img {
+        @apply w-12 h-12;
+    }
+}

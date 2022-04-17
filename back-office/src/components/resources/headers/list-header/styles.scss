@@ -1,0 +1,12 @@
+.res-list-header {
+    @apply flex justify-between items-center pb-4;
+    @apply border-0 border-b border-solid border-gray-100;
+}
+
+.btns {
+    @apply flex items-center;
+    &>* {
+        margin-top: 0 !important;
+        @apply ml-2;
+    }
+}

@@ -1,0 +1,15 @@
+.res-data-table {
+    @apply my-8 bg-white p-6;
+    @apply border-solid border border-gray-50;
+}
+
+.res-data-table-actions {
+    @apply flex items-center;
+    &>* {
+        @apply mr-1;
+    }
+}
+
+.pagination {
+    @apply flex justify-center mt-8;
+}

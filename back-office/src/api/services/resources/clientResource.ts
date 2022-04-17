@@ -103,6 +103,13 @@ class ClientResourceService
   deleteOne(id: string | number): Promise<void> {
     return httpClient.delete(ClientResourceService.URL_PREFIX + "/" + id);
   }
+
+  async searchByEmail(emailSearchQuery: string): Promise<ListClientRecord[]> {
+    const { data } = await httpClient.get<ListClientRecord[]>(
+      ClientResourceService.URL_PREFIX + "/search/" + emailSearchQuery
+    );
+    return data;
+  }
 }
 
 const clientResourceService = new ClientResourceService();

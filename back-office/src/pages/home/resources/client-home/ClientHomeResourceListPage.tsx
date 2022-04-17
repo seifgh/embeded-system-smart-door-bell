@@ -31,9 +31,11 @@ const COLUMNS: ResourceRecordsListColumn[] = [
     dataIndex: "members",
     title: "Members",
     render: (members: ShowClientRecord[]) =>
-      members.map((member) => (
-        <ClientHomeResourceClientColumn key={member.id} client={member} />
-      )),
+      (members.length &&
+        members.map((member) => (
+          <ClientHomeResourceClientColumn key={member.id} client={member} />
+        ))) ||
+      "No members",
   },
   {
     dataIndex: "createdAt",

@@ -24,7 +24,7 @@ export interface ListClientHomeRecord
 
 export interface CreateClientHomeRecord extends BaseClientHomeRecord {
   ownerId: number;
-  membersIds: number;
+  membersIds: number[];
 }
 
 export interface UpdateClientHomeRecord

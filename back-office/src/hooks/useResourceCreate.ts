@@ -22,6 +22,7 @@ const useResourceCreate = <RecordType>(
   }, [form, defaultFieldsValue]);
 
   const onSubmit = async (data: RecordType) => {
+    console.log({ data });
     setIsLoading(true);
     resourceService
       .create(data)

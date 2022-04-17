@@ -23,3 +23,11 @@ export const fullNameValidationRules: Rule[] = [
 export const clientImageValidationRules: Rule[] = [
   { required: true, message: "Image is missing" },
 ];
+
+export const nameValidationRules: Rule[] = [
+  { required: true, message: "Name is missing" },
+];
+
+export const ownerValidationRules: Rule[] = [
+  { required: true, message: "Owner is missing" },
+];

@@ -43,6 +43,7 @@ const ClientResourceCreatePage: FC = () => {
     "/client",
     {}
   );
+
   return (
     <>
       <ResourceCreateHeader title="Add new client" />

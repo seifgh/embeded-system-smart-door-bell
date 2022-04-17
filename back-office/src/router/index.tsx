@@ -4,7 +4,7 @@ import AdminResourceCreatePage from "../pages/home/resources/admin/AdminResource
 import AdminResourceListPage from "../pages/home/resources/admin/AdminResourceListPage";
 import AdminResourceShowPage from "../pages/home/resources/admin/AdminResourceShowPage";
 import AdminResourceUpdatePage from "../pages/home/resources/admin/AdminResourceUpdatePage";
-import ClientHomeResourceCreatePage from "../pages/home/resources/client-home/Create";
+import ClientHomeResourceCreatePage from "../pages/home/resources/client-home/ClientHomeResourceCreatePage";
 import ClientHomeResourceListPage from "../pages/home/resources/client-home/ClientHomeResourceListPage";
 import ClientResourceListPage from "../pages/home/resources/client/ClientResourceListPage";
 import ClientResourceShowPage from "../pages/home/resources/client/ClientResourceShowPage";

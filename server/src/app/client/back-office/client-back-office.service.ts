@@ -73,8 +73,7 @@ export class ClientBackOfficeService {
       }
       newClient.email = data.email;
       newClient.fullName = data.fullName;
-      newClient.password = data.password;
-      await newClient.hashPassword();
+      await newClient.hashPassword(data.password);
 
       return this.formatClientData(await this.clientRepository.save(newClient));
     } catch (err) {
@@ -93,8 +92,7 @@ export class ClientBackOfficeService {
         foundClient.email = toUpdate.email;
         foundClient.fullName = toUpdate.fullName;
         if (toUpdate.password) {
-          foundClient.password = toUpdate.password;
-          await foundClient.hashPassword();
+          await foundClient.hashPassword(toUpdate.password);
         }
         if (image) {
           this.deleteClientImage(foundClient);

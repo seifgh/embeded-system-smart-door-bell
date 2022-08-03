@@ -1,14 +1,16 @@
 import { Avatar, Row } from "antd";
 import Text from "antd/lib/typography/Text";
 import { FC } from "react";
+import { useStore } from "../../../../store/StoreContext";
 import "./styles.scss";
 
 const HeaderUserCard: FC = () => {
-  const user = {
-    fullName: "Seif Gharres",
-    email: "seifgh.dev@gmail.com",
-    role: "Manager",
-  };
+  const {
+    state: {
+      admin: { data },
+    },
+  } = useStore();
+
   return (
     <Row align="middle" className="header-user-card">
       <Avatar
@@ -16,15 +18,13 @@ const HeaderUserCard: FC = () => {
         style={{ backgroundColor: "var(--dark-cl)" }}
         size="large"
       >
-        {user.fullName.slice(0, 2)}
+        {data.fullName.slice(0, 2)}
       </Avatar>
       <div className="details">
-        <Text ellipsis>{user.fullName}</Text>
-        {/* <Text type="secondary" ellipsis>
-          {user.email}
-        </Text> */}
+        <Text ellipsis>{data.fullName}</Text>
+
         <Text type="success" ellipsis>
-          {user.role}
+          {data.role}
         </Text>
       </div>
     </Row>

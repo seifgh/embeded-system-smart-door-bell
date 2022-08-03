@@ -61,6 +61,21 @@ export class ClientHomeBackOfficeService {
     );
   }
 
+  async update(id: number, toUpdate: ClientHomeDto): Promise<ClientHomeData> {
+    const foundClientHome = await this.findOne(id);
+    foundClientHome.name = toUpdate.name;
+    foundClientHome.owner = await this.clientBackOfficeService.findOne(
+      toUpdate.ownerId,
+    );
+    foundClientHome.members = await Promise.all(
+      toUpdate.membersIds.map((memberId) =>
+        this.clientBackOfficeService.findOne(memberId),
+      ),
+    );
+    await foundClientHome.save();
+    return this.formatClientHomeData(foundClientHome);
+  }
+
   async findOne(id: number): Promise<ClientHomeEntity> {
     const foundClient = await this.clientHomeRepository.findOne(id, {
       relations: ['members', 'owner'],

@@ -10,7 +10,8 @@ import {
 
 const useResourceUpdate = <ShowRecordType, UpdateRecordType>(
   resourceService: BaseResource<any, ShowRecordType, any, UpdateRecordType>,
-  navigateToAfterUpdate: string
+  navigateToAfterUpdate: string,
+  fieldsInitDataFormatter?: (data: ShowRecordType) => any
 ) => {
   const [form] = Form.useForm();
   const navigate = useNavigate();
@@ -22,14 +23,15 @@ const useResourceUpdate = <ShowRecordType, UpdateRecordType>(
     resourceService
       .getOne(recordId)
       .then((data: ShowRecordType) => {
-        form.setFieldsValue(data);
+        form.setFieldsValue(
+          fieldsInitDataFormatter ? fieldsInitDataFormatter(data) : data
+        );
       })
       .catch((err) => {
-        console.log({ err });
         navigate("/");
       })
       .finally(() => setIsLoading(false));
-  }, [form, navigate, recordId, resourceService]);
+  }, [form, navigate, recordId, resourceService, fieldsInitDataFormatter]);
 
   const onSubmit = async (data: UpdateRecordType) => {
     setIsLoading(true);

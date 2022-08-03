@@ -35,3 +35,14 @@ export class UpdateAdminDto extends AdminDto {
   @MaxLength(120)
   password: string;
 }
+
+export class LoginAdminDto {
+  @IsNotEmpty()
+  @IsEmail()
+  email: string;
+
+  @IsNotEmpty()
+  @MinLength(8)
+  @MaxLength(120)
+  password: string;
+}

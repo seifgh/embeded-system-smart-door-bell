@@ -1,17 +1,19 @@
 import { ClientEntity } from 'src/app/client/client.entity';
 import {
-  Entity,
-  PrimaryGeneratedColumn,
-  Column,
-  Generated,
-  ManyToOne,
-  CreateDateColumn,
-  UpdateDateColumn,
   BaseEntity,
-  ManyToMany,
+  Column,
+  CreateDateColumn,
+  Entity,
+  Generated,
   JoinColumn,
   JoinTable,
+  ManyToMany,
+  ManyToOne,
+  OneToMany,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
 } from 'typeorm';
+import { ClientHomeHistoryEntity } from './client-home-history.entity';
 
 @Entity('clientHome')
 export class ClientHomeEntity extends BaseEntity {
@@ -25,13 +27,21 @@ export class ClientHomeEntity extends BaseEntity {
   @Column()
   name: string;
 
-  @ManyToOne(() => ClientEntity, (owner) => owner.homes)
+  @ManyToOne(() => ClientEntity, (owner) => owner.homes, {
+    onDelete: 'CASCADE',
+  })
   @JoinColumn({ name: 'ownerId' })
   owner: ClientEntity;
 
   @ManyToMany(() => ClientEntity, (client) => client.memberOf)
   @JoinTable()
   members: ClientEntity[];
+
+  @OneToMany(
+    () => ClientHomeHistoryEntity,
+    (clientHomeHistory) => clientHomeHistory.home,
+  )
+  histories: ClientHomeHistoryEntity[];
 
   @CreateDateColumn()
   createdAt: Date;

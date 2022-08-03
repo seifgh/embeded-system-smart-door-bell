@@ -12,9 +12,7 @@ const ResourceRecordsList: FC<ResourceRecordsListProps> = ({
   onDelete,
 }) => {
   const navigate = useNavigate();
-  const onShowSizeChange = (current: number, pageSize: number) => {
-    console.log({ current, pageSize });
-  };
+  const onShowSizeChange = (current: number, pageSize: number) => {};
   const onPageChange = (page: number) => {
     navigate(`?page=${page}`);
   };

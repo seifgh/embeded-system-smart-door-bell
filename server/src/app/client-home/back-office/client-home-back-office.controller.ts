@@ -9,15 +9,19 @@ import {
   Param,
   ParseIntPipe,
   Post,
+  Put,
   Query,
+  UseGuards,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
+import { IsAdminGuard } from 'src/shared/guards/is-admin.guard';
 import { PaginationLimitValuePipe } from 'src/shared/pipes/pagination.pipe';
 import { ClientHomeDto } from './client-home-back-office.dto';
 import { ClientHomeBackOfficeService } from './client-home-back-office.service';
 
 @Controller('/back-office/clients-home')
+@UseGuards(IsAdminGuard)
 export class ClientHomeBackOfficeController {
   constructor(
     private readonly clientHomeBackOfficeService: ClientHomeBackOfficeService,
@@ -40,6 +44,15 @@ export class ClientHomeBackOfficeController {
     limit: number,
   ) {
     return this.clientHomeBackOfficeService.getMany({ page, limit });
+  }
+
+  @UsePipes(new ValidationPipe())
+  @Put('/:id')
+  update(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() toUpdate: ClientHomeDto,
+  ) {
+    return this.clientHomeBackOfficeService.update(id, toUpdate);
   }
 
   @UsePipes(new ValidationPipe())

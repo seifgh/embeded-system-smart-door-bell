@@ -12,18 +12,21 @@ import {
   Put,
   Query,
   UploadedFile,
+  UseGuards,
   UseInterceptors,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
+import { IsAdminGuard } from 'src/shared/guards/is-admin.guard';
 import { PaginationLimitValuePipe } from 'src/shared/pipes/pagination.pipe';
 import { imageFileFilter, setFileName } from 'src/utils/multer';
 import { CreateClientDto, UpdateClientDto } from './client-back-office.dto';
 import { ClientBackOfficeService } from './client-back-office.service';
 
 @Controller('back-office/clients')
+@UseGuards(IsAdminGuard)
 export class ClientBackOfficeController {
   constructor(
     private readonly clientBackOfficeService: ClientBackOfficeService,
@@ -39,7 +42,7 @@ export class ClientBackOfficeController {
     @Query('page', new DefaultValuePipe(1), ParseIntPipe) page: number,
     @Query(
       'limit',
-      new DefaultValuePipe(5),
+      new DefaultValuePipe(2),
       ParseIntPipe,
       new PaginationLimitValuePipe(),
     )

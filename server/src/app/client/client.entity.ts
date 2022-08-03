@@ -1,35 +1,11 @@
 import { ClientHomeEntity } from 'src/app/client-home/client-home.entity';
-import {
-  Entity,
-  PrimaryGeneratedColumn,
-  Column,
-  OneToMany,
-  CreateDateColumn,
-  UpdateDateColumn,
-  BaseEntity,
-  ManyToMany,
-  BeforeInsert,
-} from 'typeorm';
-import * as argon2 from 'argon2';
+import { ChildEntity, Column, ManyToMany, OneToMany } from 'typeorm';
+import { UserEntity } from '../auth/entities/user.entity';
 
-@Entity('client')
-export class ClientEntity extends BaseEntity {
-  @PrimaryGeneratedColumn()
-  id: number;
-
+@ChildEntity('client')
+export class ClientEntity extends UserEntity {
   @Column()
   fullName: string;
-
-  @Column({ unique: true })
-  email: string;
-
-  @Column()
-  password: string;
-
-  @BeforeInsert()
-  async hashPassword() {
-    this.password = await argon2.hash(this.password);
-  }
 
   @Column()
   imageURL: string;
@@ -39,10 +15,4 @@ export class ClientEntity extends BaseEntity {
 
   @ManyToMany(() => ClientHomeEntity, (clientHome) => clientHome.members)
   memberOf: ClientHomeEntity[];
-
-  @CreateDateColumn()
-  createdAt: Date;
-
-  @UpdateDateColumn()
-  updatedAt: Date;
 }

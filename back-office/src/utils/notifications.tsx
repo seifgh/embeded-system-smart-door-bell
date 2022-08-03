@@ -30,6 +30,20 @@ export const notifyItemUpdatedSuccessfully = () => {
   });
 };
 
+export const notifyLoginError = () => {
+  notification.error({
+    message: "Oops",
+    description: "Invalid password or email",
+  });
+};
+
+export const notifyLoginSuccess = (adminFullName: string) => {
+  notification.success({
+    message: "Success",
+    description: `Welcome to your account ${adminFullName}!`,
+  });
+};
+
 export const handleApiFormErrors = (err: AxiosError, form: FormInstance) => {
   if (err.response?.data) {
     const { error } = err.response.data;

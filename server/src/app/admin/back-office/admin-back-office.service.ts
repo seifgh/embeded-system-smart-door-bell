@@ -1,26 +1,33 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import {
+  IPaginationOptions,
+  paginate,
+  Pagination,
+} from 'nestjs-typeorm-paginate';
+import { AuthService } from 'src/app/auth/services/auth.service';
 import { QueryFailedError, Repository } from 'typeorm';
+import { TypeOrmErrorCodes } from '../../../constants/typeorm-error-codes';
 import {
   NOT_FOUND_BODY_RESPONSE,
   UNIQUE_EMAIL_BODY_RESPONSE,
 } from '../../../shared/body-responses';
-import { TypeOrmErrorCodes } from '../../../constants/typeorm-error-codes';
 import { AdminEntity } from '../admin.entity';
-import { CreateAdminDto, UpdateAdminDto } from './admin-back-office.dto';
-import { AdminData } from './admin-back-office.interface';
-
 import {
-  paginate,
-  Pagination,
-  IPaginationOptions,
-} from 'nestjs-typeorm-paginate';
+  CreateAdminDto,
+  LoginAdminDto,
+  UpdateAdminDto,
+} from './admin-back-office.dto';
+import { AdminData } from './admin-back-office.interface';
 
 @Injectable()
 export class AdminBackOfficeService {
   constructor(
     @InjectRepository(AdminEntity)
     private readonly adminRepository: Repository<AdminEntity>,
+
+    @Inject(AuthService)
+    private readonly authService: AuthService,
   ) {}
 
   async getOne(id: number): Promise<AdminData> {
@@ -49,8 +56,8 @@ export class AdminBackOfficeService {
       newAdmin.email = data.email;
       newAdmin.fullName = data.fullName;
       newAdmin.role = data.role;
-      newAdmin.password = data.password;
-      await newAdmin.hashPassword();
+
+      await newAdmin.hashPassword(data.password);
       return this.formatAdminData(await this.adminRepository.save(newAdmin));
     } catch (err) {
       this.handleUniqueEmailError(err);
@@ -65,8 +72,7 @@ export class AdminBackOfficeService {
         foundAdmin.fullName = toUpdate.fullName;
         foundAdmin.role = toUpdate.role;
         if (toUpdate.password) {
-          foundAdmin.password = toUpdate.password;
-          await foundAdmin.hashPassword();
+          await foundAdmin.hashPassword(toUpdate.password);
         }
         await foundAdmin.save();
         return this.formatAdminData(foundAdmin);
@@ -87,6 +93,24 @@ export class AdminBackOfficeService {
       return foundAdmin;
     }
     throw new HttpException(NOT_FOUND_BODY_RESPONSE, HttpStatus.NOT_FOUND);
+  }
+
+  async login(dto: LoginAdminDto) {
+    const foundAdmin = await this.adminRepository.findOne({
+      where: {
+        email: dto.email,
+      },
+    });
+    if (foundAdmin && (await foundAdmin.verifyPassword(dto.password))) {
+      return {
+        authToken: this.authService.generateAccessToken(foundAdmin.id),
+        admin: this.formatAdminData(foundAdmin),
+      };
+    }
+    throw new HttpException(
+      'Invalid password or email',
+      HttpStatus.UNAUTHORIZED,
+    );
   }
 
   private formatAdminData(admin: AdminEntity): AdminData {

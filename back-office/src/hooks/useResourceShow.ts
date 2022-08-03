@@ -34,7 +34,6 @@ const useResourceShow = <RecordType>(
         setRecordData(data);
       })
       .catch((err) => {
-        console.log({ err });
         navigate("/");
       })
       .finally(() => setIsLoading(false));

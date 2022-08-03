@@ -16,20 +16,14 @@ export interface ShowClientHomeRecord
   members: ShowClientRecord[];
 }
 
-export interface ListClientHomeRecord
-  extends ResourceId,
-    BaseClientHomeRecord,
-    ResourceTimestamps,
-    ShowClientHomeRecord {}
+export interface ListClientHomeRecord extends ShowClientHomeRecord {}
 
 export interface CreateClientHomeRecord extends BaseClientHomeRecord {
   ownerId: number;
   membersIds: number[];
 }
 
-export interface UpdateClientHomeRecord
-  extends BaseClientHomeRecord,
-    CreateClientHomeRecord {}
+export interface UpdateClientHomeRecord extends CreateClientHomeRecord {}
 
 class ClientHomeResourceService
   implements
@@ -66,6 +60,7 @@ class ClientHomeResourceService
   }
 
   create(item: CreateClientHomeRecord): Promise<void> {
+    item.membersIds = item.membersIds || [];
     return httpClient.post(ClientHomeResourceService.URL_PREFIX, item);
   }
 
@@ -73,6 +68,7 @@ class ClientHomeResourceService
     id: string | number,
     updatedItem: UpdateClientHomeRecord
   ): Promise<void> {
+    updatedItem.membersIds = updatedItem.membersIds || [];
     return httpClient.put(
       ClientHomeResourceService.URL_PREFIX + "/" + id,
       updatedItem

@@ -6,10 +6,15 @@ import { ClientHomeEntity } from './client-home.entity';
 import { ClientHomeBackOfficeController } from './back-office/client-home-back-office.controller';
 import { ClientHomeBackOfficeService } from './back-office/client-home-back-office.service';
 import { ClientModule } from '../client/client.module';
+import { ClientHomeHistoryEntity } from './client-home-history.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([ClientHomeEntity]), ClientModule],
+  imports: [
+    TypeOrmModule.forFeature([ClientHomeEntity, ClientHomeHistoryEntity]),
+    ClientModule,
+  ],
   controllers: [ClientHomeController, ClientHomeBackOfficeController],
   providers: [ClientHomeService, ClientHomeBackOfficeService],
+  exports: [ClientHomeService],
 })
 export class ClientHomeModule {}

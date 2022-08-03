@@ -27,7 +27,6 @@ const useResourceList = <RecordType>(
   });
 
   const fetchRecords = useCallback(() => {
-    console.log("Fetching");
     setIsLoading(true);
     resourceService
       .getMany(page)
@@ -37,9 +36,7 @@ const useResourceList = <RecordType>(
         }
         setPaginatedRecords(data);
       })
-      .catch((err) => {
-        console.log({ err });
-      })
+      .catch((err) => {})
       .finally(() => setIsLoading(false));
   }, [page, navigate, resourceService]);
 

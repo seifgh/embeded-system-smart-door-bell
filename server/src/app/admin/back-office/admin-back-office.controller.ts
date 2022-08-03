@@ -1,5 +1,6 @@
 import {
   Body,
+  ClassSerializerInterceptor,
   Controller,
   DefaultValuePipe,
   Delete,
@@ -11,11 +12,24 @@ import {
   Post,
   Put,
   Query,
+  Req,
+  UseGuards,
+  UseInterceptors,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
+import { Request } from 'express';
+import {
+  IsAdminGuard,
+  IsAdminSuperuserGuard,
+} from 'src/shared/guards/is-admin.guard';
 import { PaginationLimitValuePipe } from 'src/shared/pipes/pagination.pipe';
-import { CreateAdminDto, UpdateAdminDto } from './admin-back-office.dto';
+import {
+  CreateAdminDto,
+  LoginAdminDto,
+  UpdateAdminDto,
+} from './admin-back-office.dto';
 import { AdminBackOfficeService } from './admin-back-office.service';
 
 @Controller('back-office/admins')
@@ -24,11 +38,13 @@ export class AdminBackOfficeController {
     private readonly adminBackOfficeService: AdminBackOfficeService,
   ) {}
 
+  @UseGuards(IsAdminSuperuserGuard)
   @Get('/:id')
   async getOne(@Param('id', ParseIntPipe) id: number) {
     return this.adminBackOfficeService.getOne(id);
   }
 
+  @UseGuards(IsAdminSuperuserGuard)
   @Get()
   async getMany(
     @Query('page', new DefaultValuePipe(1), ParseIntPipe) page: number,
@@ -46,12 +62,14 @@ export class AdminBackOfficeController {
     });
   }
 
+  @UseGuards(IsAdminSuperuserGuard)
   @UsePipes(new ValidationPipe())
   @Post()
   async create(@Body() data: CreateAdminDto) {
     return this.adminBackOfficeService.create(data);
   }
 
+  @UseGuards(IsAdminSuperuserGuard)
   @UsePipes(new ValidationPipe())
   @Put('/:id')
   async update(
@@ -61,9 +79,23 @@ export class AdminBackOfficeController {
     return this.adminBackOfficeService.update(id, toUpdate);
   }
 
+  @UseGuards(IsAdminSuperuserGuard)
   @Delete('/:id')
   @HttpCode(HttpStatus.NO_CONTENT)
   async deleteOne(@Param('id', ParseIntPipe) id: number) {
     return this.adminBackOfficeService.deleteOne(id);
+  }
+
+  @UsePipes(new ValidationPipe())
+  @Post('/auth/login')
+  async login(@Body() dto: LoginAdminDto) {
+    return this.adminBackOfficeService.login(dto);
+  }
+
+  @UseInterceptors(ClassSerializerInterceptor)
+  @UseGuards(IsAdminGuard)
+  @Get('/auth/data')
+  async authGuardTest(@Req() req: Request) {
+    return req.user;
   }
 }

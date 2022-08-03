@@ -1,10 +1,19 @@
 {
-    "folders": [
-		{
-			"path": "back-office"
-		},
-		{
-			"path": "server"
-		}
-	]
+  "folders": [
+    {
+      "path": "server"
+    },
+    {
+      "path": "smart-door-bell-mobile-app"
+    },
+    {
+      "path": "back-office"
+    },
+    {
+      "path": "Webcam-Face-Detect"
+    }
+  ],
+  "settings": {
+    "liveServer.settings.multiRootWorkspaceName": "Webcam-Face-Detect"
+  }
 }

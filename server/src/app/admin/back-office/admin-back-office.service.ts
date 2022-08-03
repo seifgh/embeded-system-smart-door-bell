@@ -1,4 +1,10 @@
-import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
+import {
+  HttpException,
+  HttpStatus,
+  Inject,
+  Injectable,
+  Logger,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import {
   IPaginationOptions,
@@ -12,7 +18,7 @@ import {
   NOT_FOUND_BODY_RESPONSE,
   UNIQUE_EMAIL_BODY_RESPONSE,
 } from '../../../shared/body-responses';
-import { AdminEntity } from '../admin.entity';
+import { AdminEntity, AdminRole } from '../admin.entity';
 import {
   CreateAdminDto,
   LoginAdminDto,
@@ -22,13 +28,30 @@ import { AdminData } from './admin-back-office.interface';
 
 @Injectable()
 export class AdminBackOfficeService {
+  private readonly logger = new Logger(AdminBackOfficeService.name);
+
   constructor(
     @InjectRepository(AdminEntity)
     private readonly adminRepository: Repository<AdminEntity>,
 
     @Inject(AuthService)
     private readonly authService: AuthService,
-  ) {}
+  ) {
+    this.create({
+      email: 'ademhassine30@yahoo.fr',
+      fullName: 'Ya 8ali',
+      password: 'azerty123',
+      role: AdminRole.SUPERUSER,
+    })
+      .then(() => {
+        this.logger.verbose(
+          'ADMIN CREATED SUCCSSFULY (email: ademhassine30@yahoo.fr, pass: azerty123)',
+        );
+      })
+      .catch(() => {
+        this.logger.error('ADMIN WITH THIS EMAIL ALREADY EXISTS');
+      });
+  }
 
   async getOne(id: number): Promise<AdminData> {
     return this.formatAdminData(await this.findOne(id));

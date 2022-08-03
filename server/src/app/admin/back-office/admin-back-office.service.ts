@@ -48,9 +48,7 @@ export class AdminBackOfficeService {
           'ADMIN CREATED SUCCSSFULY (email: ademhassine30@yahoo.fr, pass: azerty123)',
         );
       })
-      .catch(() => {
-        this.logger.error('ADMIN WITH THIS EMAIL ALREADY EXISTS');
-      });
+      .catch(() => {});
   }
 
   async getOne(id: number): Promise<AdminData> {
